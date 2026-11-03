@@ -16,6 +16,7 @@ import GoalsPage from './pages/GoalsPage.jsx';
 import ReportsPage from './pages/ReportsPage.jsx';
 import SettingsPage from './pages/SettingsPage.jsx';
 import TransactionForm from './components/transactions/TransactionForm.jsx';
+import QuickAdd from './components/transactions/QuickAdd.jsx';
 import { useToast } from './hooks/useToast.jsx';
 
 const EMPTY_STATE = {
@@ -125,6 +126,10 @@ export default function App() {
       return [{ ...payload, id: newId('t'), createdAt: new Date().toISOString() }, ...list];
     });
     setTxnModal(null);
+  };
+
+  const quickAddTransaction = (payload) => {
+    setTransactions((list) => [{ ...payload, id: newId('t'), createdAt: new Date().toISOString() }, ...list]);
   };
 
   const applyImported = (imported, mode) => {
@@ -246,6 +251,8 @@ export default function App() {
             </main>
           </div>
         </div>
+
+        <QuickAdd currency={settings.currency} onAdd={quickAddTransaction} />
 
         {txnModal && (
           <Modal
