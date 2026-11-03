@@ -67,10 +67,10 @@ export default function QuickAdd({ currency, onAdd }) {
         onClick={() => setOpen(true)}
         aria-label="Quick add expense"
         title="Quick add expense"
-        className="fixed z-40 flex items-center justify-center rounded-full shadow-lg"
+        // Bottom-left on phones and bottom-right above the Netlify badge on desktop,
+        // so the badge never covers it (tester feedback, End of Cycle 1).
+        className="fixed z-40 flex items-center justify-center rounded-full shadow-lg left-5 bottom-5 lg:left-auto lg:right-6 lg:bottom-24"
         style={{
-          right: '1.25rem',
-          bottom: '1.25rem',
           width: '3.5rem',
           height: '3.5rem',
           background: 'var(--primary)',

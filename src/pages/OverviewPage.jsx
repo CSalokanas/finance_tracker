@@ -74,7 +74,8 @@ export default function OverviewPage({
     [monthTx, monthBudgets, goals, currency, month, transactions]
   );
 
-  const overBudget = monthBudgets.some((b) => (catTotals.get(b.category) || 0) >= b.budgetCents);
+  const overCats = monthBudgets.filter((b) => (catTotals.get(b.category) || 0) >= b.budgetCents);
+  const overBudget = overCats.length > 0;
   const warnBudget =
     !overBudget && monthBudgets.some((b) => b.budgetCents > 0 && (catTotals.get(b.category) || 0) / b.budgetCents >= 0.8);
 
@@ -125,7 +126,7 @@ export default function OverviewPage({
             <div className="text-sm">
               <strong>{overBudget ? 'Over budget' : 'Budget warning'}: </strong>
               {overBudget
-                ? 'You are spending over your monthly budget. Review your largest category.'
+                ? `${overCats.length === 1 ? '1 category is' : `${overCats.length} categories are`} over budget (${overCats.map((b) => categoryLabel(b.category, 'expense')).join(', ')}), even if your overall total is still under.`
                 : 'You are approaching a budget limit (80%+). Watch your spending.'}
               <button className="link-btn ml-2" onClick={() => onNavigate('budgets')}>
                 View budgets →

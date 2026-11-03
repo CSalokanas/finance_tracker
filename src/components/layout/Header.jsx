@@ -23,7 +23,7 @@ export default function Header({
 }) {
   const { theme, toggle } = useTheme();
   const showMonthCtrl = ['overview', 'transactions', 'budgets', 'reports'].includes(section);
-  const name = (settings?.displayName || 'there');
+  const name = (settings?.displayName || '').trim();
 
   const title = SECTION_TITLES[section] || 'Spendly';
 
@@ -36,7 +36,7 @@ export default function Header({
         <h1 className="text-lg md:text-xl font-bold tracking-tight truncate">{title}</h1>
         <p className="text-xs text-muted-c md:text-[13px]">
           {section === 'overview'
-            ? `Welcome back, ${name}! Here's your ${monthKeyLabel(month)} at a glance.`
+            ? `Welcome back${name ? `, ${name}` : ''}! Here's your ${monthKeyLabel(month)} at a glance.`
             : section === 'reports'
             ? 'Reports change with your stored data.'
             : 'Track and manage your finances.'}

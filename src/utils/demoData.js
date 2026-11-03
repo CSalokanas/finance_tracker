@@ -7,7 +7,9 @@ import { nowISO } from './date.js';
 
 function d(day, monthOffset = 0) {
   const now = new Date();
-  const dte = new Date(now.getFullYear(), now.getMonth() + monthOffset, day);
+  // Current-month demo entries never land after today.
+  const safeDay = monthOffset === 0 ? Math.min(day, now.getDate()) : day;
+  const dte = new Date(now.getFullYear(), now.getMonth() + monthOffset, safeDay);
   const p = (n) => String(n).padStart(2, '0');
   return `${dte.getFullYear()}-${p(dte.getMonth() + 1)}-${p(dte.getDate())}`;
 }
@@ -40,7 +42,6 @@ function dxn(o) {
 export function buildDemoTransactions() {
   const L = (t) => d(t, 0);
   const P = (t) => d(t, -1);
-  const T = (t) => d(t, 1);
   const txs = [];
   // A realistic mix of real-life transactions for the current month,
   // last month, and next-month projected salary/bill.
@@ -81,9 +82,6 @@ export function buildDemoTransactions() {
   txs.push(dxn({ title: 'Salary', type: 'income', category: 'salary', date: P(1), amount: 1850.0, createdAt: nowISO() }));
   txs.push(dxn({ title: 'Freelance Project — Content', type: 'income', category: 'freelance', date: P(22), amount: 180.0, createdAt: nowISO() }));
 
-  // ---- Next month (projected bills) ----
-  txs.push(dxn({ title: 'Monthly Rent (Housing) — budgeted', type: 'expense', category: 'housing', date: T(3), amount: 950.0, description: 'Budgeted bill, not yet spent', createdAt: nowISO() }));
-  txs.push(dxn({ title: 'Salary (projected)', type: 'income', category: 'salary', date: T(1), amount: 2100.0, description: 'Projected for the month ahead', createdAt: nowISO() }));
 
   return txs;
 }

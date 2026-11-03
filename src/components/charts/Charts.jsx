@@ -15,7 +15,7 @@ import {
   Line,
   ReferenceLine
 } from 'recharts';
-import { formatMoney } from '../../utils/format.js';
+import { formatMoney, formatCompact } from '../../utils/format.js';
 
 // A Tooltip that renders formatted cents (values are stored as integer cents).
 function MoneyTooltip({ active, payload, label, currency, prefix = '' }) {
@@ -58,7 +58,7 @@ export function IncomeExpenseBar({ series, currency, height = 240 }) {
             tickLine={false}
             axisLine={false}
             width={54}
-            tickFormatter={(v) => formatMoney(v, currency)}
+            tickFormatter={(v) => formatCompact(v, currency)}
           />
           <Tooltip cursor={{ fill: 'color-mix(in srgb, var(--primary) 6%, transparent)' }} content={<MoneyTooltip currency={currency} />} />
           <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '12px' }} />
@@ -83,7 +83,7 @@ export function ExpenseTrendLine({ series, currency, height = 220 }) {
             tickLine={false}
             axisLine={false}
             width={54}
-            tickFormatter={(v) => formatMoney(v, currency)}
+            tickFormatter={(v) => formatCompact(v, currency)}
           />
           <Tooltip content={<MoneyTooltip currency={currency} prefix="" />} />
           <ReferenceLine y={0} stroke="var(--chart-grid)" />

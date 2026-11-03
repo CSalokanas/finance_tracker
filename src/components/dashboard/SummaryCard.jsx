@@ -26,13 +26,13 @@ export default function SummaryCard({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-xs font-medium text-muted-c">{label}</div>
-          <div className="text-2xl md:text-[1.7rem] font-bold tabular mt-1.5 truncate" style={{ color: 'var(--text)' }}>
+          <div className="text-lg sm:text-2xl md:text-[1.7rem] font-bold tabular mt-1.5 break-words leading-tight" style={{ color: 'var(--text)' }}>
             {value}
           </div>
-          {sub && <div className="text-xs text-faint-c mt-1 truncate">{sub}</div>}
+          {sub && <div className="text-xs text-faint-c mt-1">{sub}</div>}
         </div>
         <div
-          className="rounded-full flex items-center justify-center shrink-0"
+          className="rounded-full hidden sm:flex items-center justify-center shrink-0"
           style={{
             width: '2.5rem', height: '2.5rem',
             background: `color-mix(in srgb, ${toneColor} 12%, transparent)`,

@@ -5,7 +5,7 @@ import { loadState, saveState, clearAllStoredData } from './utils/storage.js';
 import { buildDemoTransactions, buildDemoBudgets, buildDemoGoals } from './utils/demoData.js';
 import { currentMonthKey, monthKeyLabel } from './utils/date.js';
 import { buildExport, downloadJson, exportFilename } from './utils/importExport.js';
-import Sidebar from './components/layout/Sidebar.jsx';
+import Sidebar, { MobileNav } from './components/layout/Sidebar.jsx';
 import Header from './components/layout/Header.jsx';
 import Modal from './components/ui/Modal.jsx';
 import ConfirmDialog from './components/ui/ConfirmDialog.jsx';
@@ -178,7 +178,8 @@ export default function App() {
               setSettings={setAppSettings}
               onOpenSettings={() => setSection('settings')}
             />
-            <main className="page flex-1 pt-0 mt-0">
+            <MobileNav section={section} onNavigate={setSection} />
+            <main className="page flex-1 pt-0 mt-0 pb-28">
               {section === 'overview' && (
                 <OverviewPage
                   month={month}

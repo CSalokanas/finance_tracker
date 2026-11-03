@@ -80,6 +80,7 @@ export default function TransactionForm({ initial, onSubmit, onCancel, currency 
     try {
       onSubmit(payload);
       setSubmitting(false);
+      toast.success(initial ? 'Transaction updated' : 'Transaction added', payload.title);
     } catch (err) {
       console.error('Transaction save failed', err);
       setSubmitting(false);

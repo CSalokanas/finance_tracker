@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   LayoutDashboard,
   Receipt,
@@ -6,12 +6,10 @@ import {
   Target,
   BarChart3,
   Settings as SettingsIcon,
-  Wallet,
-  Menu,
-  X
+  Wallet
 } from 'lucide-react';
 
-const SECTIONS = [
+export const SECTIONS = [
   { id: 'overview',   label: 'Overview',        icon: LayoutDashboard },
   { id: 'transactions',label: 'Transactions',  icon: Receipt },
   { id: 'budgets',   label: 'Budgets',         icon: PiggyBank },
@@ -21,7 +19,6 @@ const SECTIONS = [
 ];
 
 export default function Sidebar({ section, onNavigate, demoBadge }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   const content = (
     <div className="flex flex-col h-full">
@@ -51,7 +48,6 @@ export default function Sidebar({ section, onNavigate, demoBadge }) {
               key={s.id}
               onClick={() => {
                 onNavigate(s.id);
-                setMobileOpen(false);
               }}
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
               style={{
@@ -87,39 +83,42 @@ export default function Sidebar({ section, onNavigate, demoBadge }) {
 
   return (
     <>
-      {/* Mobile trigger */}
-      <button
-        className="lg:hidden sticky top-3 z-30 flex items-center gap-2 ml-3 bg-surface border rounded-lg px-3 py-2 text-sm"
-        onClick={() => setMobileOpen(true)}
-        style={{ borderColor: 'var(--border)' }}
-        aria-label="Open navigation"
-      >
-        <Menu size={18} />
-        <span>Menu</span>
-      </button>
-
-      {/* Mobile drawer */}
-      {mobileOpen && (
-        <div className="lg:hidden fixed inset-0 z-40" role="dialog" aria-modal="true">
-          <div className="absolute inset-0" style={{ background: 'var(--overlay)' }} onClick={() => setMobileOpen(false)} />
-          <aside
-            className="absolute left-0 top-0 h-full w-72 bg-bg anim-fade"
-            style={{ borderRight: '1px solid var(--border)' }}
-          >
-            <div className="flex justify-end p-3">
-              <button className="btn btn-ghost btn-icon btn-sm" onClick={() => setMobileOpen(false)} aria-label="Close navigation">
-                <X size={16} />
-              </button>
-            </div>
-            {content}
-          </aside>
-        </div>
-      )}
-
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex lg:flex-col lg:w-64 shrink-0 h-screen sticky top-0" style={{ borderRight: '1px solid var(--border)', background: 'var(--bg)' }}>
         {content}
       </aside>
     </>
+  );
+}
+
+// Phones: a scrollable tab strip under the header instead of an empty side column.
+export function MobileNav({ section, onNavigate }) {
+  return (
+    <nav
+      className="lg:hidden flex gap-1.5 overflow-x-auto px-4 py-2"
+      style={{ borderBottom: '1px solid var(--border-soft)', scrollbarWidth: 'none' }}
+      aria-label="Primary"
+    >
+      {SECTIONS.map((s) => {
+        const Icon = s.icon;
+        const active = section === s.id;
+        return (
+          <button
+            key={s.id}
+            onClick={() => onNavigate(s.id)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0"
+            style={{
+              background: active ? 'color-mix(in srgb, var(--primary) 16%, transparent)' : 'transparent',
+              color: active ? 'var(--text)' : 'var(--text-muted)',
+              border: `1px solid ${active ? 'color-mix(in srgb, var(--primary) 34%, transparent)' : 'var(--border)'}`
+            }}
+            aria-current={active ? 'page' : undefined}
+          >
+            <Icon size={14} style={{ color: active ? 'var(--primary)' : undefined }} />
+            {s.label}
+          </button>
+        );
+      })}
+    </nav>
   );
 }
